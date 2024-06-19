@@ -50,6 +50,14 @@
             const keyboardBaseGeometry = new THREE.BoxGeometry(19, 1, 10);
             const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x33333 });
             const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
+            keyboardBase.position.set(0,0,0);
+            scene.add(keyboardBase);
+
+          // マウスパッドを作成
+            const mousePadGeometry = new THREE.BoxGeometry(4, 0.5, 3);
+            const mousePadMaterial = new THREE.MeshBasicMaterial({ color: 0x111111 });
+            const mousePad = new THREE.Mesh(mousePadGeometry, mousePadMaterial);
+            keyboardBase.position.set(0,0.1,8);
             scene.add(keyboardBase);
 
             // キャンバスを使って文字を含むテクスチャを作成する関数
@@ -63,7 +71,7 @@
                 context.fillStyle = 'black';
                  let fontSize = 150;
                 if (letter.length > 1) {
-                    fontSize = 50; // 複数文字のキーのフォントサイズを小さくする
+                    fontSize = 55; // 複数文字のキーのフォントサイズを小さくする
                 }
                 context.font = `${fontSize}px Arial`;
                 context.textAlign = 'center';
@@ -91,10 +99,10 @@
                 ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
                 ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter'],
                 ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'Shift'],
-                ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl']
+                ['Ctrl', 'Alt', '     ', 'Alt', 'Ctrl']
             ];
 
-            const rowOffsets = [-7.6, -7, -7.2, -7.9, -6.3];
+            const rowOffsets = [-8, -8, -7.6, -7.2, -6.8];
             const rowZPositions = [-3.5, -2.5, -1.5, -0.5, 0.5];
 
             layout.forEach((row, rowIndex) => {
