@@ -6,112 +6,107 @@
   </head>
 <body>
  <script>
-      // ページの読み込みを待つ
-      window.addEventListener('DOMContentLoaded', init);
+       // ページの読み込みを待つ
+        window.addEventListener('DOMContentLoaded', init);
 
-      function init() {
-        // サイズを指定
-        const width = 800
-        const height = 600;
+        function init() {
+            // サイズを指定
+            const width = 800;
+            const height = 600;
 
-        // レンダラーを作成
-        var renderer = new THREE.WebGLRenderer();
-        document.body.appendChild(renderer.domElement);
-        renderer.setSize(width, height);
+            // レンダラーを作成
+            const renderer = new THREE.WebGLRenderer();
+            document.body.appendChild(renderer.domElement);
+            renderer.setSize(width, height);
 
-        // シーンを作成
-        const scene = new THREE.Scene();
+            // シーンを作成
+            const scene = new THREE.Scene();
 
-        // カメラを作成
-        const camera = new THREE.PerspectiveCamera(45, width / height);
-        // カメラの初期座標を設定
-        camera.position.set(0, 0, 5);
+            // カメラを作成
+            const camera = new THREE.PerspectiveCamera(45, width / height);
+            // カメラの初期座標を設定
+            camera.position.set(0, 0, 5);
 
-        // カメラコントローラーを作成
-        const controls = new THREE.OrbitControls(camera, document.body); 
-        
-        // 平行光源1
-        var directionalLight1 = new THREE.DirectionalLight(0xffffff);
-        directionalLight1.position.set(10, 10, 10);
-        // シーンに追加
-        scene.add(directionalLight1);
-        // 平行光源2
-        var directionalLight2 = new THREE.DirectionalLight(0x888888);
-        directionalLight2.position.set(-10, -10, 10);
-        // シーンに追加
-        scene.add(directionalLight2);
+            // カメラコントローラーを作成
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-        // helper
-        const gridHelper = new THREE.GridHelper(2,10); // size, step
-        scene.add(gridHelper);
-        const axisHelper = new THREE.AxisHelper(2); //軸の長さ　X：赤、Y：緑、z：青
-        scene.add(axisHelper);
+            // 平行光源1
+            var directionalLight1 = new THREE.DirectionalLight(0xffffff);
+            directionalLight1.position.set(10, 10, 10);
+            // シーンに追加
+            scene.add(directionalLight1);
+            // 平行光源2
+            var directionalLight2 = new THREE.DirectionalLight(0x888888);
+            directionalLight2.position.set(-10, -10, 10);
+            // シーンに追加
+            scene.add(directionalLight2);
 
-        // キーボードの土台を作成
-        const keyboardBaseGeometry = new THREE.BoxGeometry(10, 0.5, 5);
-        const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
-        const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
-        scene.add(keyboardBase);
-       // キャンバスを使って文字を含むテクスチャを作成する関数
-        function createKeyTexture(letter) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 256;
-            canvas.height = 256;
-            const context = canvas.getContext('2d');
-            context.fillStyle = 'white';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            context.fillStyle = 'black';
-            context.font = '150px Arial';
-            context.textAlign = 'center';
-            context.textBaseline = 'middle';
-            context.fillText(letter, canvas.width / 2, canvas.height / 2);
-            return new THREE.CanvasTexture(canvas);
-        }
-        
-        // キーボードキーを作成する関数
-        function createKey(x, y, z, width, height, depth, color) {
-            const keyGeometry = new THREE.BoxGeometry(width, height, depth);
-            const keyMaterial = new THREE.MeshBasicMaterial({ color: color });
-            const key = new THREE.Mesh(keyGeometry, keyMaterial);
-            key.position.set(x, y, z);
-            scene.add(key);
-        }
+            // helper
+            const gridHelper = new THREE.GridHelper(2, 10); // size, step
+            scene.add(gridHelper);
+            const axisHelper = new THREE.AxisHelper(2); //軸の長さ　X：赤、Y：緑、z：青
+            scene.add(axisHelper);
 
-        
+            // キーボードの土台を作成
+            const keyboardBaseGeometry = new THREE.BoxGeometry(10, 0.5, 5);
+            const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+            const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
+            scene.add(keyboardBase);
 
-        // キーボードのキーを配置
-        const keyWidth = 0.8;
-        const keyHeight = 0.2;
-        const keyDepth = 0.8;
-        const keySpacing = 1.0;
-        const rows = 4;
-        const cols = 10;
-        const letters = [
-            'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-            'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
-            'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/'
-        ];
-        let letterIndex = 0;
-        for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
-                if (letterIndex < letters.length) {
-                    createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, letters[letterIndex]);
-                    letterIndex++;
+            // キャンバスを使って文字を含むテクスチャを作成する関数
+            function createKeyTexture(letter) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const context = canvas.getContext('2d');
+                context.fillStyle = 'white';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                context.fillStyle = 'black';
+                context.font = '150px Arial';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.fillText(letter, canvas.width / 2, canvas.height / 2);
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // キーボードキーを作成する関数
+            function createKey(x, y, z, width, height, depth, letter) {
+                const keyGeometry = new THREE.BoxGeometry(width, height, depth);
+                const keyMaterial = new THREE.MeshBasicMaterial({ map: createKeyTexture(letter) });
+                const key = new THREE.Mesh(keyGeometry, keyMaterial);
+                key.position.set(x, y, z);
+                scene.add(key);
+            }
+
+            // キーボードのキーを配置
+            const keyWidth = 0.8;
+            const keyHeight = 0.2;
+            const keyDepth = 0.8;
+            const keySpacing = 1.0;
+            const rows = 4;
+            const cols = 10;
+            const letters = [
+                'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+                'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
+                'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/'
+            ];
+            let letterIndex = 0;
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (letterIndex < letters.length) {
+                        createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, letters[letterIndex]);
+                        letterIndex++;
+                    }
                 }
             }
-        }
-        update();
-// 毎フレーム時に実行されるループイベントです
-        function update() {
-          // レンダリング
-          renderer.render(scene, camera);
-          requestAnimationFrame(update);
 
+            // レンダリングループ
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
         }
-        
-      } 
-        
-   
     </script>
 </body>
 </html>
