@@ -24,7 +24,7 @@
             // カメラを作成
             const camera = new THREE.PerspectiveCamera(45, width / height);
             // カメラの初期座標を設定
-            camera.position.set(0, 0, 5);
+            camera.position.set(, 0, 5);
 
             // カメラコントローラーを作成
             const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -47,8 +47,8 @@
             scene.add(axisHelper);
 
             // キーボードの土台を作成
-            const keyboardBaseGeometry = new THREE.BoxGeometry(12, 1, 5);
-            const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+            const keyboardBaseGeometry = new THREE.BoxGeometry(20, 1, 5);
+            const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x33333 });
             const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
             scene.add(keyboardBase);
 
@@ -61,7 +61,11 @@
                 context.fillStyle = 'white';
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 context.fillStyle = 'black';
-                context.font = '150px Arial';
+                 let fontSize = 150;
+                if (letter.length > 1) {
+                    fontSize = 100; // 複数文字のキーのフォントサイズを小さくする
+                }
+                context.font = `${fontSize}px Arial`;
                 context.textAlign = 'center';
                 context.textBaseline = 'middle';
                 context.fillText(letter, canvas.width / 2, canvas.height / 2);
@@ -90,8 +94,8 @@
                 ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl']
             ];
 
-            const rowOffsets = [-5.5, -5, -5, -5, -4.5];
-            const rowZPositions = [-2.5, -1.5, -0.5, 0.5, 1.5 ];
+            const rowOffsets = [-6.6, -6, -6.2, -6.9, -5.3];
+            const rowZPositions = [1.5, 0.5, -0.5, -1.5, -2.5];
 
             layout.forEach((row, rowIndex) => {
                 let xOffset = rowOffsets[rowIndex];
