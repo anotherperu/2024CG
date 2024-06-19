@@ -52,7 +52,23 @@
         const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
         const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
         scene.add(keyboardBase);
-
+        
+        // キャンバスを使って文字を含むテクスチャを作成する関数
+        function createKeyTexture(letter) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256;
+            canvas.height = 256;
+            const context = canvas.getContext('2d');
+            context.fillStyle = 'white';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = 'black';
+            context.font = '150px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillText(letter, canvas.width / 2, canvas.height / 2);
+            return new THREE.CanvasTexture(canvas);
+        }
+        
         // キーボードキーを作成する関数
         function createKey(x, y, z, width, height, depth, color) {
             const keyGeometry = new THREE.BoxGeometry(width, height, depth);
@@ -62,6 +78,8 @@
             scene.add(key);
         }
 
+        
+
         // キーボードのキーを配置
         const keyWidth = 0.8;
         const keyHeight = 0.2;
@@ -69,13 +87,20 @@
         const keySpacing = 1.0;
         const rows = 4;
         const cols = 10;
-
+        const letters = [
+            'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+            'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
+            'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/'
+        ];
+        let letterIndex = 0;
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
-                createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, 0xeeeeee);
+                if (letterIndex < letters.length) {
+                    createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, letters[letterIndex]);
+                    letterIndex++;
+                }
             }
         }
-
         update();
 
         // 毎フレーム時に実行されるループイベントです
