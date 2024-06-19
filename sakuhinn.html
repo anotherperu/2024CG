@@ -48,7 +48,7 @@
             scene.add(axisHelper);
 
             // キーボードの土台を作成
-            const keyboardBaseGeometry = new THREE.BoxGeometry(10, 0.5, 5);
+            const keyboardBaseGeometry = new THREE.BoxGeometry(12, 1, 5);
             const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
             const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
             scene.add(keyboardBase);
@@ -80,25 +80,34 @@
 
             // キーボードのキーを配置
             const keyWidth = 0.8;
-            const keyHeight = 0.2;
+            const keyHeight = 0.8;
             const keyDepth = 0.8;
             const keySpacing = 1.0;
-            const rows = 4;
-            const cols = 10;
-            const letters = [
-                'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-                'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
-                'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/'
+            const layout = [
+                ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+                ['Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
+                ['CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', '\'', 'Enter'],
+                ['Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'Shift'],
+                ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl']
             ];
-            let letterIndex = 0;
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    if (letterIndex < letters.length) {
-                        createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, letters[letterIndex]);
-                        letterIndex++;
+
+            const rowOffsets = [-5.5, -5, -5, -5, -4.5];
+            const rowZPositions = [1.5, 0.5, -0.5, -1.5, -2.5];
+
+            layout.forEach((row, rowIndex) => {
+                let xOffset = rowOffsets[rowIndex];
+                row.forEach(key => {
+                    let keyWidthScale = 1.0;
+                    if (key === 'Backspace' || key === 'Tab' || key === 'CapsLock' || key === 'Enter' || key === 'Shift' || key === 'Ctrl' || key === 'Alt') {
+                        keyWidthScale = 2.0;
                     }
-                }
-            }
+                    if (key === 'Space') {
+                        keyWidthScale = 5.0;
+                    }
+                    createKey(xOffset + (keyWidthScale / 2), 0.35, rowZPositions[rowIndex], keyWidth * keyWidthScale, keyHeight, keyDepth, key);
+                    xOffset += keySpacing * keyWidthScale;
+                });
+            });
 
             // レンダリングループ
             function animate() {
