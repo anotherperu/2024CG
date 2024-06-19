@@ -10,7 +10,9 @@
         window.addEventListener('DOMContentLoaded', init);
 
         function init() {
-
+          // サイズを指定
+            const width = 1200;
+            const height = 800;
             // レンダラーを作成
             const renderer = new THREE.WebGLRenderer();
             document.body.appendChild(renderer.domElement);
