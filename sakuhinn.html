@@ -47,12 +47,34 @@
         const axisHelper = new THREE.AxisHelper(2); //軸の長さ　X：赤、Y：緑、z：青
         scene.add(axisHelper);
 
-        // 箱を作成
-        var geometry = new THREE.BoxGeometry(1, 1, 1);
-        var material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-        var box = new THREE.Mesh(geometry, material);
-        box.position.set(0,0,0); //位置を指定
-        scene.add(box);   // シーンに追加
+        // キーボードの土台を作成
+        const keyboardBaseGeometry = new THREE.BoxGeometry(10, 0.5, 5);
+        const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+        const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
+        scene.add(keyboardBase);
+
+        // キーボードキーを作成する関数
+        function createKey(x, y, z, width, height, depth, color) {
+            const keyGeometry = new THREE.BoxGeometry(width, height, depth);
+            const keyMaterial = new THREE.MeshBasicMaterial({ color: color });
+            const key = new THREE.Mesh(keyGeometry, keyMaterial);
+            key.position.set(x, y, z);
+            scene.add(key);
+        }
+
+        // キーボードのキーを配置
+        const keyWidth = 0.8;
+        const keyHeight = 0.2;
+        const keyDepth = 0.8;
+        const keySpacing = 1.0;
+        const rows = 4;
+        const cols = 10;
+
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                createKey(-4.5 + j * keySpacing, 0.35, -2 + i * keySpacing, keyWidth, keyHeight, keyDepth, 0xeeeeee);
+            }
+        }
 
         update();
 
