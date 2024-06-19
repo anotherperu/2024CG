@@ -50,15 +50,15 @@
             const keyboardBaseGeometry = new THREE.BoxGeometry(18, 1, 10);
             const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x33333 });
             const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
-            keyboardBase.position.set(0,0,-10);
+            keyboardBase.position.set(0,0,-5);
             scene.add(keyboardBase);
 
           // マウスパッドを作成
             const mousePadGeometry = new THREE.BoxGeometry(4, 1, 3);
             const mousePadMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
             const mousePad = new THREE.Mesh(mousePadGeometry, mousePadMaterial);
-            keyboardBase.position.set(0,0.1,-2);
-            scene.add(keyboardBase);
+            mousePad.position.set(0,0.1,3);
+            scene.add(mousePad);
 
             // キャンバスを使って文字を含むテクスチャを作成する関数
             function createKeyTexture(letter) {
@@ -102,7 +102,7 @@
                 ['Ctrl', 'Alt', '     ', 'Alt', 'Ctrl']
             ];
 
-            const rowOffsets = [-8, -8, -7.6, -7.2, -6.8];
+            const rowOffsets = [-8, -8, -7.8, -7.6, -7];
             const rowZPositions = [-3.5, -2.5, -1.5, -0.5, 0.5];
 
             layout.forEach((row, rowIndex) => {
