@@ -54,7 +54,13 @@
         scene.add(keyboardBase);
        
         update();
+// 毎フレーム時に実行されるループイベントです
+        function update() {
+          // レンダリング
+          renderer.render(scene, camera);
+          requestAnimationFrame(update);
 
+        }
         
       } 
         // キャンバスを使って文字を含むテクスチャを作成する関数
@@ -105,13 +111,7 @@
                 }
             }
         }
-   // 毎フレーム時に実行されるループイベントです
-        function update() {
-          // レンダリング
-          renderer.render(scene, camera);
-          requestAnimationFrame(update);
-
-        }
+   
     </script>
 </body>
 </html>
