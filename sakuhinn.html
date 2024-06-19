@@ -47,7 +47,7 @@
             scene.add(axisHelper);
 
             // キーボードの土台を作成
-            const keyboardBaseGeometry = new THREE.BoxGeometry(19, 1, 5);
+            const keyboardBaseGeometry = new THREE.BoxGeometry(19, 1, 10);
             const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x33333 });
             const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
             scene.add(keyboardBase);
@@ -63,7 +63,7 @@
                 context.fillStyle = 'black';
                  let fontSize = 150;
                 if (letter.length > 1) {
-                    fontSize = 100; // 複数文字のキーのフォントサイズを小さくする
+                    fontSize = 50; // 複数文字のキーのフォントサイズを小さくする
                 }
                 context.font = `${fontSize}px Arial`;
                 context.textAlign = 'center';
@@ -95,7 +95,7 @@
             ];
 
             const rowOffsets = [-7.6, -7, -7.2, -7.9, -6.3];
-            const rowZPositions = [-2.5, -1.5, -0.5, 0.5, 1.5];
+            const rowZPositions = [-3.5, -2.5, -1.5, -0.5, 0.5];
 
             layout.forEach((row, rowIndex) => {
                 let xOffset = rowOffsets[rowIndex];
