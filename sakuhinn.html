@@ -10,9 +10,6 @@
         window.addEventListener('DOMContentLoaded', init);
 
         function init() {
-            // サイズを指定
-            const width = 800;
-            const height = 600;
 
             // レンダラーを作成
             const renderer = new THREE.WebGLRenderer();
@@ -92,7 +89,7 @@
             ];
 
             const rowOffsets = [-5.5, -5, -5, -5, -4.5];
-            const rowZPositions = [1.5, 0.5, -0.5, -1.5, -2.5];
+            const rowZPositions = [-2.5, -1.5, -0.5, 0.5, 1.5 ];
 
             layout.forEach((row, rowIndex) => {
                 let xOffset = rowOffsets[rowIndex];
