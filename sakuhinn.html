@@ -52,7 +52,11 @@
         const keyboardBaseMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
         const keyboardBase = new THREE.Mesh(keyboardBaseGeometry, keyboardBaseMaterial);
         scene.add(keyboardBase);
+       
+        update();
+
         
+      } 
         // キャンバスを使って文字を含むテクスチャを作成する関数
         function createKeyTexture(letter) {
             const canvas = document.createElement('canvas');
@@ -101,18 +105,13 @@
                 }
             }
         }
-        update();
-
-        // 毎フレーム時に実行されるループイベントです
+   // 毎フレーム時に実行されるループイベントです
         function update() {
           // レンダリング
           renderer.render(scene, camera);
           requestAnimationFrame(update);
 
-          
-
         }
-      }
     </script>
 </body>
 </html>
