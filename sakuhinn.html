@@ -102,7 +102,7 @@
                 ['Ctrl', 'Alt', '     ', 'Alt', 'Ctrl']
             ];
 
-            const rowOffsets = [-8, -8, -8, -7.7, -7];
+            const rowOffsets = [-7, -8, -8, -7.7, -7];
             const rowZPositions = [-3.5, -2.5, -1.5, -0.5, 0.5];
 
             layout.forEach((row, rowIndex) => {
@@ -121,6 +121,40 @@
                     xOffset += keySpacing * keyWidthScale;
                 });
             });
+          // モニターを作成
+            function createMonitor(x, y, z) {
+                // モニターのベゼル
+                const bezelGeometry = new THREE.BoxGeometry(7, 4, 0.2);
+                const bezelMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+                const bezel = new THREE.Mesh(bezelGeometry, bezelMaterial);
+                bezel.position.set(x, y, z);
+                scene.add(bezel);
+
+                // モニターの画面
+                const screenGeometry = new THREE.BoxGeometry(6.6, 3.6, 0.1);
+                const screenMaterial = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+                const screen = new THREE.Mesh(screenGeometry, screenMaterial);
+                screen.position.set(x, y, z + 0.1); // ベゼルの前に配置
+                scene.add(screen);
+
+                // モニタースタンド
+                const standGeometry = new THREE.BoxGeometry(0.5, 3, 0.5);
+                const standMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+                const stand = new THREE.Mesh(standGeometry, standMaterial);
+                stand.position.set(x, y - 3.5, z - 0.1);
+                scene.add(stand);
+
+                // モニターベース
+                const baseGeometry = new THREE.BoxGeometry(3, 0.2, 3);
+                const baseMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+                const base = new THREE.Mesh(baseGeometry, baseMaterial);
+                base.position.set(x, y - 5, z - 0.1);
+                scene.add(base);
+            }
+
+            // モニターの配置
+            createMonitor(0, 0, -10);
+
 
             // レンダリングループ
             function animate() {
