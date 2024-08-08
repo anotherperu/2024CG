@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/controls/OrbitControls.js"></script>
+  <script>
+    // ページの読み込みを待つ
+    window.addEventListener('load', init);
+
+    function init() {
+      // サイズを指定
+      const width = 960;
+      const height = 540;
+
+      // レンダラーを作成
+      const renderer = new THREE.WebGLRenderer({
+        canvas: document.querySelector('#myCanvas')
+      });
+      renderer.setSize(width, height);
+      renderer.setClearColor(0xf9f9f9, 1.0);
+
+      // シーンを作成
+      const scene = new THREE.Scene();
+
+      // カメラを作成
+      const camera = new THREE.PerspectiveCamera(45, width / height);
+      camera.position.set(0, 0, 1000);
+
+      // カメラコントローラーを作成
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.autoRotate = true;
+
+      // helper
+      const gridHelper = new THREE.GridHelper(1000, 20); // size, step
+      scene.add(gridHelper);
+      const axisHelper = new THREE.AxesHelper(1000); //軸の長さ　X：赤、Y：緑、z：青
+      scene.add(axisHelper);
+
+      // マテリアルを作成する
+      const susi1 = new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('img/maguro.png')
+      });
+      const susi2 = new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('img/sa-mon.png')
+      });
+      const susi3 = new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('img/ebi.png')
+      });
+      const susi4 = new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('img/negitoro.png')
+      });
+      const susi5 = new THREE.SpriteMaterial({
+        map: new THREE.TextureLoader().load('img/ikura.png')
+      });
+
+      // 皿のマテリアルを作成
+      const plateMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+
+      // グループを作成
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // ビルボードと皿を作成
+      for (let i = 0; i < 30; i++) {
+        let sprite;
+        if (i % 5 == 0) {
+          sprite = new THREE.Sprite(susi1);
+        } else if (i % 5 == 1) {
+          sprite = new THREE.Sprite(susi2);
+        } else if (i % 5 == 2) {
+          sprite = new THREE.Sprite(susi3);
+        } else if (i % 5 == 3) {
+          sprite = new THREE.Sprite(susi4);
+        } else if (i % 5 == 4) {
+          sprite = new THREE.Sprite(susi5);
+        }
+        // 配置
+        sprite.position.x = 300 * Math.sin(Math.PI * i / 15);
+        sprite.position.y = 25; // スプライトを皿の上に配置する
+        sprite.position.z = 300 * Math.cos(Math.PI * i / 15);
+        sprite.scale.set(50, 50, 50);
+
+        // 皿を作成
+        const plateGeometry = new THREE.CylinderGeometry(30, 30, 5, 32);
+        const plate = new THREE.Mesh(plateGeometry, plateMaterial);
+        plate.position.x = sprite.position.x;
+        plate.position.y = 0; // 皿の位置
+        plate.position.z = sprite.position.z;
+
+        // スプライトと皿をグループに追加
+        group.add(sprite);
+        group.add(plate);
+      }
+
+      // 環境光
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      scene.add(ambientLight);
+
+      // スポットライト
+      const spotLight = new THREE.SpotLight(0xffffff, 2.0);
+      spotLight.position.set(0, 500, 500);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+
+      tick();
+
+      // 毎フレーム時に実行されるループイベントです
+      function tick() {
+        group.rotateY(0.01);
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="myCanvas"></canvas>
+</body>
+</html>
+
